@@ -81,61 +81,109 @@ router.get('/students/:id', async (req, res) => {
     const id = req.params.id;
     const school_id = 1
 
-    const [users] = await pool.query(`SELECT id_user, username, firstname, lastname, uri_image_profile, user_description, type_user 
-    FROM user WHERE id_user <> 1 AND school_id = 1`)
+    const [users] = await pool.query(`SELECT id_user, uri_image_profile, type_user 
+    FROM user WHERE school_id = 1`)
     res.json(users)
 
 })
 
-router.get('/profile/post/:id', async (req, res) => {
+router.get('/profile/:id', async (req, res) => {
+    const id = req.params.id;
+    const school_id = 1
+
+    const [users] = await pool.query(`
+    SELECT id_user, username, firstname, lastname, uri_image_profile, user_description
+    FROM user
+    WHERE id_user = ?`, [id])
+    res.json(users)
+})
+
+router.get('/profile/numPosts/:id', async (req, res) => {
+    const id = req.params.id;
+
+    const [num_posts] = await pool.query(`
+        SELECT COUNT(p.id_post) as num_posts 
+        FROM post p 
+        INNER JOIN user u ON u.id_user = p.id_author_post 
+        WHERE p.id_author_post = ?`, [id])
+    res.json(num_posts)
+})
+
+
+router.post('/report/:id', async (req, res) => {
+    const id = req.params.id;
+
+    // Obtener datos del body
+    const {report_description} = req.body;
+
+    try {
+      // Query INSERT
+      const sql = `INSERT INTO report (id_user, report_description) 
+                   VALUES (?, ?)`;
+  
+      const [result] = await pool.query(sql, [id, report_description]); 
+
+      // Devolver objeto con estado
+      res.json({
+        ok: true,
+        message: 'Reporte creado correctamente',
+        report: {
+          id: result.insertId,
+          id_user: id,
+          report_description  
+        }
+      });
+  
+    } catch (err) {
+      res.status(500).json({
+        ok: false,
+        message: 'Error creando el reporte: ',
+        error: err.message
+      });
+  
+    }
+})
+
+router.get('/profile/post/:userProfile/:userId', async (req, res) => {
     //Parametros a recibir 
-    const id = req.params.id
-    const id_author_posts = 1
-    const type_user = 1
-    if (type_user === 1) {
-        const [posts] = await pool.query(`SELECT p.id_post, p.id_author_post, u.username, u.firstname, u.uri_image_profile, p.post_description,
+    const id = req.params.userProfile
+    const id_user = req.params.userId
+
+    const [posts] = await pool.query(`SELECT p.id_post, p.id_author_post, u.username, u.firstname, u.uri_image_profile, p.post_description,
         p.post_category, p.num_likes 
         FROM post p 
         INNER JOIN user u ON p.id_author_post = u.id_user 
-        WHERE p.id_author_post = ? AND p.post_category = "image"`, [id_author_posts])
+        WHERE p.id_author_post = ? AND p.post_category = "image"`, [id])
 
-        const mediaPromises = posts.map(async post => {
-            const [images] = await pool.query(`
+    const mediaPromises = posts.map(async post => {
+        const [images] = await pool.query(`
                     SELECT url_image 
                     FROM image
                     WHERE id_post = ?
                     `, [post.id_post]);
 
-            const [like] = await pool.query(`
+        const [like] = await pool.query(`
                     SELECT is_liked
                     FROM like_post
                     WHERE id_post = ? AND id_user = ?
-                `, [post.id_post, id]);
+                `, [post.id_post, id_user]);
 
-            var is_liked = 0
+        var is_liked = 0
 
-            if (like[0] !== undefined) {
-                is_liked = like[0].is_liked
-            }
-            return {
-                ...post,
-                images,
-                is_liked
-            };
-        });
+        if (like[0] !== undefined) {
+            is_liked = like[0].is_liked
+        }
+        return {
+            ...post,
+            images,
+            is_liked
+        };
+    });
 
-        const media = await Promise.all(mediaPromises);
-        res.json(media)
-    }
+    const media = await Promise.all(mediaPromises);
+    res.json(media)
 
-})
 
-router.get('/profile/post/liked/:id', async (req, res) => {
-    //Parametros a recibir 
-    id_user = 1
-    id_post = 1
-
-    const [post] = await pool.query(`SELECT is_liked FROM like WHERE id_user = ? AND id_post = ?`, [id_user, id_post])
 })
 
 export default router;

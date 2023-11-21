@@ -22,6 +22,13 @@ CREATE TABLE user(
 
 );
 
+CREATE TABLE report(
+    id_report INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT,
+    report_description VARCHAR(400),
+    FOREIGN KEY(id_user) REFERENCES User(id_user)
+);
+
 CREATE TABLE post(
     id_post INT AUTO_INCREMENT PRIMARY KEY,
     id_author_post INT NOT NULL,
@@ -98,7 +105,12 @@ VALUES ('johndoe', 'John', 'Doe','https://github.com/Rickerod/School-app/blob/ma
        ('janedoe9', 'Jane9', 'Doe8', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe10', 'Jane10', 'Doe9', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe11', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', FALSE, 1);
-       
+
+INSERT INTO report (id_user, report_description)
+VALUES (1, "No me gustó como este alumno me comento en la publicacion, fue muy poco acertivo"),
+       (2, "El bastian me insultó en la publicacion y dijo groserias"),
+       (3, "El julian dijo que mi comentario no aportaba en nada :(. , me hizo sentirme triste");
+
 INSERT INTO post (id_author_post, post_description, post_category, fecha_post, num_likes)
 VALUES (1, 'First day of classes', 'image', '2023-09-01', 10),
        (2, 'I love this history class!', 'image', '2023-09-15', 20),
