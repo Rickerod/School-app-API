@@ -94,7 +94,7 @@ INSERT INTO school(school_id)
 VALUES (1);
 
 INSERT INTO user (username, firstname, lastname, uri_image_profile, user_description, type_user, school_id)
-VALUES ('johndoe', 'John', 'Doe','https://github.com/Rickerod/School-app/blob/master/src/storage/images/userProfile.png', 'Teacher at XYZ High School', TRUE, 1),
+VALUES ('johndoe', 'John', 'Doe','https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/userProfile.png', 'Teacher at XYZ High School', TRUE, 1),
        ('janedoe2', 'Jane2', 'Doe1', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe3', 'Jane3', 'Doe2', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe4', 'Jane4', 'Doe3', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', FALSE, 1),
@@ -112,19 +112,19 @@ VALUES (1, "No me gustó como este alumno me comento en la publicacion, fue muy 
        (3, "El julian dijo que mi comentario no aportaba en nada :(. , me hizo sentirme triste");
 
 INSERT INTO post (id_author_post, post_description, post_category, fecha_post, num_likes)
-VALUES (1, 'First day of classes', 'image', '2023-09-01', 10),
-       (2, 'I love this history class!', 'image', '2023-09-15', 20),
-       (3, 'I love this history class!', 'image', '2023-09-14', 30),
-       (4, 'I love this history class!', 'image', '2023-09-13', 40),
-       (5, 'I love this history class!', 'image', '2023-09-12', 50),
-       (6, 'I love this history class!', 'image', '2023-09-11', 60),
-       (7, 'I love this history class!', 'image', '2023-09-10', 70),
-       (8, 'I love this history class!', 'image', '2023-09-09', 80),
-       (9, 'I love this history class!', 'image', '2023-09-08', 23),
-       (10, 'I love this history class!', 'image', '2023-09-07', 22),
-       (1, 'I love this history class!', 'image', '2023-09-07', 30),
-       (1, 'I love this history class!', 'image', '2023-09-07', 30),
-       (1, 'I love this history class!', 'image', '2023-09-07', 30);
+VALUES (1, 'First day of classes', 'imagen', '2023-09-01', 10),
+       (2, 'I love this history class!', 'imagen', '2023-09-15', 20),
+       (3, 'I love this history class!', 'imagen', '2023-09-14', 30),
+       (4, 'I love this history class!', 'imagen', '2023-09-13', 40),
+       (5, 'I love this history class!', 'imagen', '2023-09-12', 50),
+       (6, 'I love this history class!', 'imagen', '2023-09-11', 60),
+       (7, 'I love this history class!', 'imagen', '2023-09-10', 70),
+       (8, 'I love this history class!', 'imagen', '2023-09-09', 80),
+       (9, 'I love this history class!', 'imagen', '2023-09-08', 23),
+       (10, 'I love this history class!', 'imagen', '2023-09-07', 22),
+       (1, 'I love this history class!', 'imagen', '2023-09-07', 30),
+       (1, 'I love this history class!', 'imagen', '2023-09-07', 30),
+       (1, 'I love this history class!', 'imagen', '2023-09-07', 30);
 
        
 INSERT INTO like_post (id_post, id_user, is_liked, fecha_like)
@@ -137,6 +137,8 @@ VALUES (1, 2, 'Have a great first day!', 0, '2023-09-01'),
        
 INSERT INTO image (id_post, url_image)
 VALUES (1, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/post1.jpg'),
+       (1, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/post2.jpg'),   
+       (1, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/post3.jpg'),
        (2, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/post2.jpg'),
        (3, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/post3.jpg'),
        (4, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/post4.jpg'),
