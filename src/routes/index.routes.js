@@ -4,10 +4,10 @@ import { pool } from "../db.js";
 const router = Router();
 
 //Raiz
-router.get('/home', async (req, res) => {
+router.get('/home/:id', async (req, res) => {
 
     //console.log(req)
-    const { id } = req.query;
+    const id = req.params.id;
 
     try {
         const [posts] = await pool.query(`SELECT p.id_post, p.id_author_post, u.username, u.firstname, u.uri_image_profile, p.post_description,
@@ -271,7 +271,6 @@ router.post('/like/:idPost/:idUser', async (req, res) => {
         `;
 
         const [result] = await pool.query(sql, [id_post, id_user, is_liked]);
-        console.log(result)
 
         res.json({
             ok: true,
@@ -287,6 +286,27 @@ router.post('/like/:idPost/:idUser', async (req, res) => {
             const [result_update] = await pool.query(`UPDATE like_post  
                             SET is_liked = ${is_liked}, fecha_like = CURRENT_TIMESTAMP
                             WHERE id_post = ${id_post} AND id_user = ${id_user}`);
+
+            var sql2;            
+            if (is_liked) {
+                sql2 = `
+                    UPDATE post 
+                    SET num_likes = num_likes + 1
+                    WHERE id_post = ?;
+                `;
+
+
+            } else {
+                sql2 = `
+                    UPDATE post 
+                    SET num_likes = num_likes - 1
+                    WHERE id_post = ?;
+                `;
+
+                const [result2] = await pool.query(sql2, [id_post]);
+            }
+        
+
             res.json({
                 ok: true,
                 message: 'Like actualizador',
