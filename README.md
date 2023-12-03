@@ -1,14 +1,45 @@
-# Construir imagen de MySQL
-docker build -t my-mysql-image .
+<h1>Ejecución de contenedores con Docker</h1>
 
-# Ejecutar contenedor de la aplicación
-docker run -p 3000:3000 --name school-app-container -d school-app-image
+<h2>Construir imágenes</h2>
 
-# Ejecutar contenedor de MySQL
-docker run -p 3307:3306 --name school-mysql-container -d my-mysql-image  
+<p>Construye la imagen de la aplicación escolar</p>
 
-# Ejecutar otro contenedor de la app linkado al de MySQL
-docker run -p 3000:3000 --name app --link school-mysql-container:db -d school-app-image
+<pre>
+<code class="language-dockerfile">docker build -t school-app-image .</code>
+</pre>
 
-# Abrir shell interactiva dentro del contenedor de la aplicación
-docker exec -it app sh
+<p>Construye la imagen de MySQL</p>
+
+<pre>
+<code class="language-dockerfile">docker build -t my-mysql-image .</code> 
+</pre>
+
+<h2>Ejecutar contenedores</h2>
+
+<p>Ejecuta el contenedor de la aplicación mapeando puertos y en segundo plano</p>
+
+<pre>
+<code>docker run -p 3000:3000 --name school-app-container -d school-app-image</code>
+</pre>
+
+<p>Ejecuta el contenedor de MySQL mapeando puertos y en segundo plano</p>
+
+<pre>
+<code>docker run -p 3307:3306 --name school-mysql-container -d my-mysql-image</code>
+</pre>  
+
+<h2>Conectar contenedores</h2>
+
+<p>Ejecuta otro contenedor de la app vinculado al de MySQL</p>
+
+<pre>
+<code>docker run -p 3000:3000 --name app --link school-mysql-container:db -d school-app-image</code> 
+</pre>
+
+<h2>Acceder al contenedor</h2>
+ 
+<p>Abre una shell interactiva dentro del contenedor de la aplicación</p>
+
+<pre>
+<code>docker exec -it app sh</code>
+</pre>
