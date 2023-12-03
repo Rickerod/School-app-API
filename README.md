@@ -1,10 +1,7 @@
-# Construir imagen de la aplicación 
-docker build -t school-app-image . 
-
 # Construir imagen de MySQL
 docker build -t my-mysql-image .
 
-# Ejecutar contenedor de la aplicación 
+# Ejecutar contenedor de la aplicación
 docker run -p 3000:3000 --name school-app-container -d school-app-image
 
 # Ejecutar contenedor de MySQL
