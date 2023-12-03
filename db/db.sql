@@ -93,7 +93,7 @@ VALUES (1);
 INSERT INTO user(username, firstname, lastname, uri_image_profile, user_description, type_user, school_id)
 VALUES ('johndoe', 'John', 'Doe','https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/userProfile.png', 'Teacher at XYZ High School', TRUE, 1),
        ('janedoe2', 'Jane2', 'Doe1', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', FALSE, 1),
-       ('rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', FALSE, 1);
+       ('rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', FALSE, 1),
        ('janedoe4', 'Jane4', 'Doe3', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe5', 'Jane5', 'Doe4', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe6', 'Jane6', 'Doe5', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', FALSE, 1),
@@ -101,8 +101,8 @@ VALUES ('johndoe', 'John', 'Doe','https://raw.githubusercontent.com/Rickerod/Sch
        ('janedoe8', 'Jane8', 'Doe7', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe9', 'Jane9', 'Doe8', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', FALSE, 1),
        ('janedoe10', 'Jane10', 'Doe9', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', FALSE, 1),
-       ('janedoe11', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', FALSE, 1);
-       ('rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', FALSE, 1);
+       ('janedoe11', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', FALSE, 1),
+       ('rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', FALSE, 1),
        ('janedoe13', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Ministerio', FALSE, 1);
 
 INSERT INTO report(id_user, report_description)
@@ -111,24 +111,24 @@ VALUES (1, "No me gustó como este alumno me comento en la publicacion, fue muy 
        (3, "El julian dijo que mi comentario no aportaba en nada :(. , me hizo sentirme triste");
 
 INSERT INTO post(id_author_post, post_description, post_category, fecha_post, num_likes)
-VALUES (1, 'First day of classes', 'imagen', '2023-09-01', 10),
-       (2, 'I love this history class!', 'imagen', '2023-09-15', 20),
-       (3, 'I love this history class!', 'imagen', '2023-09-14', 30),
-       (4, 'I love this history class!', 'imagen', '2023-09-13', 40),
-       (5, 'I love this history class!', 'imagen', '2023-09-12', 50),
-       (6, 'I love this history class!', 'imagen', '2023-09-11', 60),
-       (7, 'I love this history class!', 'imagen', '2023-09-10', 70),
-       (8, 'I love this history class!', 'imagen', '2023-09-09', 80),
-       (9, 'I love this history class!', 'imagen', '2023-09-08', 23),
-       (10, 'I love this history class!', 'imagen', '2023-09-07', 22),
-       (1, 'I love this history class!', 'imagen', '2023-09-07', 30),
-       (1, 'I love this history class!', 'imagen', '2023-09-07', 30),
-       (1, 'I love this history class!', 'imagen', '2023-09-07', 30);
+VALUES (1, 'First day of classes', 'imagen', '2023-09-01', 0),
+       (2, 'I love this history class!', 'imagen', '2023-09-15', 0),
+       (3, 'I love this history class!', 'imagen', '2023-09-14', 0),
+       (4, 'I love this history class!', 'imagen', '2023-09-13', 0),
+       (5, 'I love this history class!', 'imagen', '2023-09-12', 0),
+       (6, 'I love this history class!', 'imagen', '2023-09-11', 0),
+       (7, 'I love this history class!', 'imagen', '2023-09-10', 0),
+       (8, 'I love this history class!', 'imagen', '2023-09-09', 0),
+       (9, 'I love this history class!', 'imagen', '2023-09-08', 0),
+       (10, 'I love this history class!', 'imagen', '2023-09-07', 0),
+       (1, 'I love this history class!', 'imagen', '2023-09-07', 0),
+       (1, 'I love this history class!', 'imagen', '2023-09-07', 0),
+       (1, 'I love this history class!', 'imagen', '2023-09-07', 0);
 
        
 INSERT INTO like_post(id_post, id_user, is_liked, fecha_like)
-VALUES (1, 2, TRUE, '2023-09-02'),
-       (2, 1, TRUE, '2023-09-20');
+VALUES (1, 2, false, '2023-09-02'),
+       (2, 1, false, '2023-09-20');
        
 INSERT INTO comments(id_post, id_user, comment, id_user_response, fecha_comment) 
 VALUES (1, 2, 'Have a great first day!', 0, '2023-09-01'),

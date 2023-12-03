@@ -49,7 +49,7 @@ router.get('/home/:id', async (req, res) => {
                 SELECT is_liked
                 FROM like_post
                 WHERE id_post = ? AND id_user = ?
-            `, [post.id_post, 1]);
+            `, [post.id_post, id]);
 
             var is_liked = 0
 
@@ -79,11 +79,10 @@ router.get('/home/:id', async (req, res) => {
 })
 
 router.get('/students/:id', async (req, res) => {
-    const id = req.params.id;
-    const school_id = 1
+    const school_id = req.params.id
 
     const [users] = await pool.query(`SELECT id_user, uri_image_profile, type_user 
-    FROM user WHERE school_id = 1`)
+    FROM user WHERE school_id = ${school_id}`)
     res.json(users)
 
 })
@@ -272,6 +271,12 @@ router.post('/like/:idPost/:idUser', async (req, res) => {
 
         const [result] = await pool.query(sql, [id_post, id_user, is_liked]);
 
+        const sql_liked = `UPDATE post 
+            SET num_likes = num_likes + 1
+            WHERE id_post = ?`
+
+        const [result2] = await pool.query(sql_liked, [id_post]);
+
         res.json({
             ok: true,
             message: 'Like insertado por primera vez',
@@ -292,24 +297,24 @@ router.post('/like/:idPost/:idUser', async (req, res) => {
                 sql2 = `
                     UPDATE post 
                     SET num_likes = num_likes + 1
-                    WHERE id_post = ?;
+                    WHERE id_post = ?
                 `;
-
 
             } else {
                 sql2 = `
                     UPDATE post 
                     SET num_likes = num_likes - 1
-                    WHERE id_post = ?;
+                    WHERE id_post = ?
                 `;
-
-                const [result2] = await pool.query(sql2, [id_post]);
+                
             }
         
+            const [result2] = await pool.query(sql2, [id_post]);
 
+            console.log(result2)
             res.json({
                 ok: true,
-                message: 'Like actualizador',
+                message: 'Like actualizador2',
                 report: {
                     id: result_update.insertId
                 }
@@ -366,10 +371,6 @@ router.get('/reports', async (req, res) => {
             error: err.message
         });
     }
-})
-
-router.post('/dislike', async (req, res) => {
-
 })
 
 router.post('/comment/:idPost/:idUser', async (req, res) => {
