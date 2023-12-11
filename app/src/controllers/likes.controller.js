@@ -9,8 +9,8 @@ export const insertLike = async (req, res) => {
 
     try {
         const sql = `
-            INSERT INTO like_post(id_post, id_user, is_liked, fecha_like)
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP)  
+            INSERT INTO like_post(id_post, id_user, is_liked)
+            VALUES (?, ?, ?)  
         `;
 
         const [result] = await pool.query(sql, [id_post, id_user, is_liked]);
@@ -33,7 +33,7 @@ export const insertLike = async (req, res) => {
         //console.log(err.code)
         if (err.code === 'ER_DUP_ENTRY') {
             const [result_update] = await pool.query(`UPDATE like_post  
-                            SET is_liked = ${is_liked}, fecha_like = CURRENT_TIMESTAMP
+                            SET is_liked = ${is_liked}
                             WHERE id_post = ${id_post} AND id_user = ${id_user}`);
 
             var sql2;

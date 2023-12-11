@@ -26,6 +26,29 @@ CREATE TABLE user(
 
 );
 
+CREATE TABLE bitacora(
+    id_bitacora INT AUTO_INCREMENT PRIMARY KEY,
+    name_bitacora VARCHAR(100),
+    id_user INT,
+    FOREIGN KEY (id_user) REFERENCES user(id_user)
+);
+
+CREATE TABLE question(
+    id_question INT PRIMARY KEY,
+    question VARCHAR(200),
+    id_bitacora INT, 
+    FOREIGN KEY(id_bitacora) REFERENCES bitacora(id_bitacora)
+);
+
+CREATE TABLE answer(
+    answer VARCHAR (200),
+    id_question INT,
+    id_user INT,
+    PRIMARY KEY(id_user, id_question),
+    FOREIGN KEY(id_question) REFERENCES question(id_question),
+    FOREIGN KEY(id_user) REFERENCES user(id_user)
+);
+
 CREATE TABLE report_general(
     id_report INT AUTO_INCREMENT PRIMARY KEY,
     id_user INT,
@@ -182,4 +205,25 @@ VALUES (1, 1, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/
 
 INSERT INTO follow(id_user, id_followed, follow)
 VALUES (1, 2, TRUE);
+
+INSERT INTO bitacora(id_bitacora, name_bitacora, id_user)
+VALUES (1, "Conociendo la aplicación", 1);
+
+INSERT INTO question(id_question, question, id_bitacora)
+VALUES (1, "¿Con que nivel de energía te iras de la clase?", 1),
+       (2, "¿Que nota le pondrias a esta actividad", 1),
+       (3, "¿Como te vas de la clase?, menciona una emoción de la imagen.", 1),
+       (4, "¿Que aprendiste de la clase hoy?. Comparte una reflexión personal", 1);
+
+INSERT INTO answer(answer, id_question, id_user)
+VALUES ("7", 1, 1),
+       ("7", 2, 1),
+       ("Contento", 3, 1),
+       ("Aprendi a como utilizar la aplicación.", 4, 1),
+       ("5", 1, 2),
+       ("5", 2, 2),
+       ("Triste", 3, 2),
+       ("La aplicación me da miedo!.", 4, 2);
+
+
 

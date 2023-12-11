@@ -9,6 +9,7 @@ import commentsRoutes from "./routes/comments.routes.js"
 import reportsRoutes from "./routes/reports.routes.js"
 import imagesRoutes from "./routes/images.routes.js"
 import likesRoutes from "./routes/likes.routes.js"
+import BitacoraRoutes from "./routes/bitacora.routes.js"
 
 const app = express()
 
@@ -24,6 +25,7 @@ app.use("/comments", commentsRoutes);
 app.use("/report", reportsRoutes);
 app.use("/images", imagesRoutes);
 app.use("/like", likesRoutes);
+app.use("/bitacora", BitacoraRoutes)
 
 //Seteos
 app.set('json spaces', 2)

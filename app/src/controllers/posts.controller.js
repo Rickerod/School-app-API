@@ -1,7 +1,6 @@
 import { pool } from "../db.js";
 
 export const getPosts = async (req, res) => {
-    console.log("paso por aca posts!")
     const id = req.params.idUser;
 
     try {
@@ -32,13 +31,8 @@ export const getPosts = async (req, res) => {
                     SELECT url_image
                     FROM image
                     WHERE id_post = ?
+                    ORDER BY position ASC
                     `, [post.id_post]);
-
-            const [videos] = await pool.query(`
-                    SELECT url_video
-                    FROM video
-                    WHERE id_post = ?
-                `, [post.id_post]);
 
             const [like] = await pool.query(`
                 SELECT is_liked
@@ -55,7 +49,6 @@ export const getPosts = async (req, res) => {
             return {
                 ...post,
                 images,
-                videos,
                 is_liked
             };
         });
@@ -134,8 +127,8 @@ export const addPost = async (req, res) => {
 
     try {
         const sql = `
-            INSERT INTO post(id_author_post, post_description, post_category, fecha_post, num_likes) 
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP, 0)
+            INSERT INTO post(id_author_post, post_description, post_category, fecha_post, num_likes, video_url) 
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP, 0, NULL)
         `;
 
         const [result] = await pool.query(sql, [id_author_post, post_description, post_category]);
@@ -143,7 +136,7 @@ export const addPost = async (req, res) => {
         // Devolver objeto con estado
         res.json({
             ok: true,
-            message: 'Publicacion insertada correctamente',
+            message: 'Publicación insertada correctamente',
             report: {
                 id: result.insertId,
                 id_user: id_author_post,
@@ -153,7 +146,7 @@ export const addPost = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             ok: false,
-            message: 'Ocurrio un error al insertar la publicacion',
+            message: 'Ocurrio un error al insertar la publicación',
             error: err.message
         });
 

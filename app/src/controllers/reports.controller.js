@@ -5,7 +5,7 @@ export const getReports = async (req, res) => {
         const [reports] = await pool.query(
             `SELECT u.id_user, u.uri_image_profile, u.username, r.id_report, r.report_description
              FROM user u
-             INNER JOIN report r ON u.id_user = r.id_user
+             INNER JOIN report_general r ON u.id_user = r.id_user
              `
         )
 
@@ -27,7 +27,7 @@ export const addReportUser = async (req, res) => {
 
     try {
         // Query INSERT
-        const sql = `INSERT INTO report (id_user, report_description) 
+        const sql = `INSERT INTO report_general(id_user, report_description) 
                    VALUES (?, ?)`;
 
         const [result] = await pool.query(sql, [id, report_description]);

@@ -4,10 +4,11 @@ export const getComments = async (req, res) => {
     const id_post = req.params.idPost
 
     try {
-        const [comments] = await pool.query(`SELECT u.uri_image_profile, u.username, c.comment, c.fecha_comment
+        const [comments] = await pool.query(`SELECT u.uri_image_profile, u.username, c.comment, a.fecha_action 
                             FROM comments c
-                            INNER JOIN user u on c.id_user = u.id_user
-                            WHERE id_post = ?`, [id_post])
+                            INNER JOIN actions a ON c.id_comment = a.id_comment
+                            INNER JOIN user u ON u.id_user = a.id_user
+                            WHERE a.id_post = ?`, [id_post])
         res.json(comments)
 
     } catch (err) {
@@ -25,22 +26,32 @@ export const addComment = async (req, res) => {
 
     const { comment } = req.body;
 
+    //Hacer transacciones atomicas posteriormente
+
+
     try {
 
-        const sql = `INSERT INTO comments(id_post, id_user, comment, id_user_response, fecha_comment) VALUES (?, ?, ?, 0, CURRENT_TIMESTAMP)`
+        const sql = `INSERT INTO comments(comment, id_user_response) VALUES (?, 0)`
 
-        const [result] = await pool.query(sql, [id_post, id_user, comment]);
+        const [result] = await pool.query(sql, [comment]);
         console.log(result)
+
+        const sql_action = `INSERT INTO actions(id_user, id_post, id_comment, id_report_post, fecha_action) VALUES (?, ?, ?, NULL, now())`
+
+        const [result_action] = await pool.query(sql_action, [id_user, id_post, result.insertId]);
+
 
         res.json({
             ok: true,
             message: 'Comentario insertado correctamente',
             report: {
-                id: result.insertId
+                id: result.insertId,
+                id_action: result_action.insertId
             }
         });
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({
             ok: false,
             message: 'Error al insertar comentario',

@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const getUsers = async (req, res) => {
     const school_id = req.params.idSchool
 
-    const [users] = await pool.query(`SELECT id_user, uri_image_profile, type_user 
+    const [users] = await pool.query(`SELECT id_user, uri_image_profile, id_type_user 
     FROM user WHERE school_id = ${school_id}`)
     res.json(users)
 }
