@@ -34,7 +34,7 @@ CREATE TABLE bitacora(
 );
 
 CREATE TABLE question(
-    id_question INT PRIMARY KEY,
+    id_question INT AUTO_INCREMENT PRIMARY KEY,
     question VARCHAR(200),
     id_bitacora INT, 
     FOREIGN KEY(id_bitacora) REFERENCES bitacora(id_bitacora)
@@ -63,6 +63,7 @@ CREATE TABLE post(
     post_category VARCHAR(200),
     fecha_post DATE NOT NULL,
     num_likes INTEGER,
+    thumbnail_video VARCHAR(200),
     video_url VARCHAR(200),
     FOREIGN KEY(id_author_post) REFERENCES user(id_user)
 );
@@ -88,7 +89,7 @@ CREATE TABLE actions(
     id_report_post INT,
     fecha_action DATE NOT NULL,
     FOREIGN KEY(id_user) REFERENCES user(id_user),
-    FOREIGN KEY(id_post) REFERENCES post(id_post),
+    FOREIGN KEY(id_post) REFERENCES post(id_post) ON DELETE CASCADE,  
     FOREIGN KEY(id_comment) REFERENCES comments(id_comment),
     FOREIGN KEY(id_report_post) REFERENCES report_post(id_report_post)
 );
@@ -99,7 +100,7 @@ CREATE TABLE like_post(
     PRIMARY KEY (id_post, id_user),
     is_liked BOOLEAN,
     FOREIGN KEY(id_user) REFERENCES user(id_user),
-    FOREIGN KEY(id_post) REFERENCES post(id_post)
+    FOREIGN KEY(id_post) REFERENCES post(id_post) ON DELETE CASCADE  
 );
 
 CREATE TABLE image(
@@ -107,7 +108,7 @@ CREATE TABLE image(
     position INT,
     id_post INT,
     url_image VARCHAR(200),
-    FOREIGN KEY(id_post) REFERENCES post(id_post)
+    FOREIGN KEY(id_post) REFERENCES post(id_post) ON DELETE CASCADE  
 );
 
 
@@ -154,20 +155,21 @@ VALUES (1, "Publicación no adecuada!"),
        (2, "Publicación es ofensiva!"),
        (3, "Publicación tiene imagenes vulgares!");
 
-INSERT INTO post(id_author_post, post_description, post_category, fecha_post, num_likes, video_url)
-VALUES (1, 'First day of classes', 'imagen', '2023-09-01', 0, NULL),
-       (2, 'I love this history class!', 'imagen', '2023-09-15', 0, NULL),
-       (3, 'I love this history class!', 'imagen', '2023-09-14', 0, NULL),
-       (4, 'I love this history class!', 'imagen', '2023-09-13', 0, NULL),
-       (5, 'I love this history class!', 'imagen', '2023-09-12', 0, NULL),
-       (6, 'I love this history class!', 'imagen', '2023-09-11', 0, NULL),
-       (7, 'I love this history class!', 'imagen', '2023-09-10', 0, NULL),
-       (8, 'I love this history class!', 'imagen', '2023-09-09', 0, NULL),
-       (9, 'I love this history class!', 'imagen', '2023-09-08', 0, NULL),
-       (10, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL),
-       (1, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL),
-       (1, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL),
-       (1, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL);
+INSERT INTO post(id_post, id_author_post, post_description, post_category, fecha_post, num_likes, thumbnail_video, video_url)
+VALUES (1, 1, 'First day of classes', 'imagen', '2023-09-01', 0, NULL, NULL),
+       (2, 2, 'I love this history class!', 'imagen', '2023-09-15', 0, NULL, NULL),
+       (3, 3, 'I love this history class!', 'imagen', '2023-09-14', 0, NULL, NULL),
+       (4, 4, 'I love this history class!', 'imagen', '2023-09-13', 0, NULL, NULL),
+       (5, 5, 'I love this history class!', 'imagen', '2023-09-12', 0, NULL, NULL),
+       (6, 6, 'I love this history class!', 'imagen', '2023-09-11', 0, NULL, NULL),
+       (7, 7, 'I love this history class!', 'imagen', '2023-09-10', 0, NULL, NULL),
+       (8, 8, 'I love this history class!', 'imagen', '2023-09-09', 0, NULL, NULL),
+       (9, 9, 'I love this history class!', 'imagen', '2023-09-08', 0, NULL, NULL),
+       (10, 10, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL, NULL),
+       (11, 1, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL, NULL),
+       (12, 1, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL, NULL),
+       (13, 1, 'I love this history class!', 'imagen', '2023-09-07', 0, NULL, NULL),
+       (14, 1, 'Big Buck Bunny!', 'video', '2023-09-01', 0, "https://woo-demo.hoststreamsell.com/wp-content/uploads/2021/04/600c26a209974338f4a579055e7ef61f_big.jpg", "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4");
 
        
 INSERT INTO like_post(id_post, id_user, is_liked)

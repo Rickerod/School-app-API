@@ -23,7 +23,7 @@ app.use("/users", usersRoutes )
 app.use("/posts", postsRoutes);
 app.use("/comments", commentsRoutes);
 app.use("/report", reportsRoutes);
-app.use("/images", imagesRoutes);
+app.use("/upload", imagesRoutes);
 app.use("/like", likesRoutes);
 app.use("/bitacora", BitacoraRoutes)
 

@@ -4,11 +4,38 @@ export const getComments = async (req, res) => {
     const id_post = req.params.idPost
 
     try {
-        const [comments] = await pool.query(`SELECT u.uri_image_profile, u.username, c.comment, a.fecha_action 
+        const [comments] = await pool.query(`SELECT c.id_comment, u.uri_image_profile, u.username, c.comment, a.fecha_action 
                             FROM comments c
                             INNER JOIN actions a ON c.id_comment = a.id_comment
                             INNER JOIN user u ON u.id_user = a.id_user
-                            WHERE a.id_post = ?`, [id_post])
+                            WHERE a.id_post = ?
+                            ORDER BY c.id_comment DESC
+                            LIMIT 15`, [id_post])
+        res.json(comments)
+
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            message: 'Error al obtener los comentarios',
+            error: err.message
+        });
+    }
+}
+
+export const getCommentsPage = async (req, res) => {
+    const id_post = req.params.idPost
+    const id_last_comment = req.params.idComment
+
+    console.log(id_post, id_last_comment)
+
+    try {
+        const [comments] = await pool.query(`SELECT c.id_comment, u.uri_image_profile, u.username, c.comment, a.fecha_action 
+                            FROM comments c
+                            INNER JOIN actions a ON c.id_comment = a.id_comment
+                            INNER JOIN user u ON u.id_user = a.id_user
+                            WHERE a.id_post = ? AND c.id_comment < ?
+                            ORDER BY c.id_comment DESC
+                            LIMIT 15`, [id_post, id_last_comment])
         res.json(comments)
 
     } catch (err) {
