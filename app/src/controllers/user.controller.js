@@ -28,3 +28,30 @@ export const getNumPostsUser = async (req, res) => {
         WHERE p.id_author_post = ?`, [id])
     res.json(num_posts)
 }
+
+export const updateProfileUser = async (req, res) => {
+    const id_user = req.params.idUser;
+
+    const { user_name, uri_image_profile, user_description} = req.body
+    try {
+
+        const sql = `UPDATE user
+        SET username = ? , uri_image_profile = ?, user_description = ?
+        WHERE id_user = ?`
+
+        const [result] = await pool.query(sql, [user_name, uri_image_profile, user_description, id_user])
+
+        res.json({
+            ok: true,
+            message: 'Usuario actualizado correctamente!',
+        });
+
+    } catch (e) {
+        res.status(500).json({
+            ok: false,
+            message: 'Ocurrió un error al actualziar el perfil del usuario',
+            error: err.message
+        });
+    }
+
+}

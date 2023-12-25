@@ -55,7 +55,6 @@ export const addComment = async (req, res) => {
 
     //Hacer transacciones atomicas posteriormente
 
-
     try {
 
         const sql = `INSERT INTO comments(comment, id_user_response) VALUES (?, 0)`

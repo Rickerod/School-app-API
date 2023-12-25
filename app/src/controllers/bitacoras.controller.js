@@ -5,7 +5,7 @@ export const getBitacoras = async (req, res) => {
     try {
         const sql = `SELECT id_bitacora, u.username, u.uri_image_profile, b.name_bitacora
         FROM user u
-        INNER JOIN bitacora b ON u.id_user= b.id_user`
+        INNER JOIN bitacora b ON u.id_user= b.id_author_bitacora`
 
         const [bitacoras] = await pool.query(sql)
 
@@ -18,20 +18,24 @@ export const getBitacoras = async (req, res) => {
 
 export const getBitacorasUser = async (req, res) => {
 
+    const idUserProfile = req.params.idUserProfile
     const idUser = req.params.idUser
+
+    console.log(idUserProfile, idUser)
 
     try {
         const sql = `SELECT id_bitacora, u.username, u.uri_image_profile, b.name_bitacora
         FROM user u
-        INNER JOIN bitacora b ON u.id_user= b.id_user`
+        INNER JOIN bitacora b ON u.id_user= b.id_author_bitacora
+        WHERE u.id_user = ?`
 
-        const sql_user = `SELECT q.id_bitacora
-        FROM answer a
-        INNER JOIN question q ON a.id_question = q.id_question
-        WHERE a.id_user = ?
-        GROUP BY a.id_user, q.id_bitacora`
+        const sql_user = `SELECT a.id_bitacora
+        FROM user u
+        INNER JOIN answer a ON u.id_user = a.id_user
+        WHERE a.id_user = ? 
+        GROUP BY a.id_bitacora`
 
-        const [bitacoras] = await pool.query(sql)
+        const [bitacoras] = await pool.query(sql, [idUserProfile])
         const [user_bitacora_made] = await pool.query(sql_user, [idUser])
 
         const ids_bitacora = user_bitacora_made.map(obj => obj.id_bitacora)
@@ -54,14 +58,12 @@ export const getBitacorasUser = async (req, res) => {
 
 
 export const getQuestions = async (req, res) => {
-    const idBitacora = req.params.idBitacora
 
     try {
         const sql = `SELECT id_question, question
-        FROM question
-        WHERE id_bitacora = ?`
+        FROM question`
 
-        const [questions] = await pool.query(sql, [idBitacora])
+        const [questions] = await pool.query(sql)
 
         res.json(questions)
 
@@ -76,10 +78,9 @@ export const getAnswers = async (req, res) => {
     try {
         const sql = `SELECT q.id_question, q.id_question, q.question, a.id_user, a.answer, u.username, u.uri_image_profile
         FROM question q
-        INNER JOIN bitacora b ON b.id_bitacora = q.id_bitacora
         INNER JOIN answer a ON q.id_question = a.id_question
         INNER JOIN user u ON a.id_user = u.id_user
-        WHERE b.id_bitacora = ?`
+        WHERE a.id_bitacora = ?`
 
         const [answers] = await pool.query(sql, idBitacora)
 
@@ -115,6 +116,7 @@ export const getAnswers = async (req, res) => {
 
 export const insertAnswers = async (req, res) => {
     const id_user = req.params.idUser
+    const id_bitacora = req.params.idBitacora
 
     const { answers } = req.body; // [{id_question: 1, "answer": "7"}, {id_question: 2, "answer": "5"}]
 
@@ -122,8 +124,8 @@ export const insertAnswers = async (req, res) => {
 
         for (const ans of answers) {
 
-            const sql = 'INSERT INTO answer(answer, id_question, id_user) VALUES (?, ?, ?)'
-            const [result] = await pool.query(sql, [ans.answer, ans.id_question, id_user])
+            const sql = 'INSERT INTO answer(answer, id_question, id_user, id_bitacora) VALUES (?, ?, ?, ?)'
+            const [result] = await pool.query(sql, [ans.answer, ans.id_question, id_user, id_bitacora])
 
         }
 
@@ -148,18 +150,43 @@ export const uploadBitacora = async (req, res) => {
     ]
     try {
 
-        const sql_bitacora = 'INSERT INTO bitacora(name_bitacora, id_user) VALUES (?, ?)'
+        const sql_bitacora = 'INSERT INTO bitacora(name_bitacora, id_author_bitacora) VALUES (?, ?)'
         const [result] = await pool.query(sql_bitacora, [titulo, id_user])
-
-        for (const question of questions) {
-            var sql_question = 'INSERT INTO question(question, id_bitacora) VALUES(?, ?)'
-            const [result_question] = await pool.query(sql_question, [question, result.insertId])
-        }
 
         res.json({
             ok: true,
-            message: 'Preguntas ingresadas correctamente!',
+            message: 'Bitacora subida correctamente!',
         });
+
+    } catch (e) {
+        res.status(500).json({ message: e })
+    }
+}
+
+export const getStatisticsBitacora = async (req, res) => {
+    const id_bitacora = req.params.idBitacora
+    const id_question = req.params.idQuestion
+
+    console.log(id_bitacora, id_question)
+
+    try {
+        const sql_statistics = `SELECT a.answer, COUNT(a.answer) as Nveces
+        FROM answer a
+        WHERE a.id_bitacora = ? AND a.id_question = ?
+        GROUP BY a.answer
+        `
+
+        const [result] = await pool.query(sql_statistics, [id_bitacora, id_question])
+
+        const arrayData = [0, 0, 0, 0, 0, 0, 0]
+
+
+        for (const ans of result) {
+            arrayData[parseInt(ans.answer) - 1] = ans.Nveces
+        }
+
+
+        res.json(arrayData)
 
     } catch (e) {
         res.status(500).json({ message: e })

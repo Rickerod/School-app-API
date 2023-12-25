@@ -21,6 +21,7 @@ CREATE TABLE user(
     user_description VARCHAR(200),
     id_type_user INT,
     school_id INT,
+    birthday_day DATE NOT NULL,
     FOREIGN KEY(id_type_user) REFERENCES type_user(id_type_user),
     FOREIGN KEY(school_id) REFERENCES school(school_id)
 
@@ -29,24 +30,24 @@ CREATE TABLE user(
 CREATE TABLE bitacora(
     id_bitacora INT AUTO_INCREMENT PRIMARY KEY,
     name_bitacora VARCHAR(100),
-    id_user INT,
-    FOREIGN KEY (id_user) REFERENCES user(id_user)
+    id_author_bitacora INT,
+    FOREIGN KEY (id_author_bitacora) REFERENCES user(id_user)
 );
 
 CREATE TABLE question(
     id_question INT AUTO_INCREMENT PRIMARY KEY,
-    question VARCHAR(200),
-    id_bitacora INT, 
-    FOREIGN KEY(id_bitacora) REFERENCES bitacora(id_bitacora)
+    question VARCHAR(200)
 );
 
 CREATE TABLE answer(
     answer VARCHAR (200),
     id_question INT,
     id_user INT,
-    PRIMARY KEY(id_user, id_question),
+    id_bitacora INT,
+    PRIMARY KEY(id_question, id_user, id_bitacora),
     FOREIGN KEY(id_question) REFERENCES question(id_question),
-    FOREIGN KEY(id_user) REFERENCES user(id_user)
+    FOREIGN KEY(id_user) REFERENCES user(id_user),
+    FOREIGN KEY (id_bitacora) REFERENCES bitacora(id_bitacora)
 );
 
 CREATE TABLE report_general(
@@ -111,6 +112,26 @@ CREATE TABLE image(
     FOREIGN KEY(id_post) REFERENCES post(id_post) ON DELETE CASCADE  
 );
 
+CREATE TABLE survey(
+    id_survey INT AUTO_INCREMENT PRIMARY KEY,
+    question_survey VARCHAR(200)
+);
+
+CREATE TABLE alternative(
+    id_alternative INT AUTO_INCREMENT PRIMARY KEY,
+    alternative VARCHAR(200),
+    id_survey INT,
+    FOREIGN KEY(id_survey) REFERENCES survey(id_survey)
+);
+
+CREATE TABLE answer_alternative(
+    id_answer_alternative INT AUTO_INCREMENT PRIMARY KEY,
+    id_alternative INT,
+    id_user INT,
+    fecha_answer DATE NOT NULL,
+    FOREIGN KEY(id_alternative) REFERENCES alternative(id_alternative),
+    FOREIGN KEY(id_user) REFERENCES user(id_user)
+);
 
 CREATE TABLE follow(
   id_user INT, 
@@ -121,6 +142,9 @@ CREATE TABLE follow(
   FOREIGN KEY(id_followed) REFERENCES user(id_user)
 );
 
+CREATE TABLE settings(
+    show_comments BOOLEAN
+);
 
 INSERT INTO school
 VALUES (1);
@@ -130,20 +154,20 @@ VALUES (0, "user"),
        (1, "admin"),
        (2, "ministerio");
 
-INSERT INTO user(id_user, username, firstname, lastname, uri_image_profile, user_description, id_type_user, school_id)
-VALUES (1, 'johndoe', 'John', 'Doe','https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/userProfile.png', 'Teacher at XYZ High School', 1, 1),
-       (2, 'janedoe2', 'Jane2', 'Doe1', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1),
-       (3, 'rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1),
-       (4, 'janedoe4', 'Jane4', 'Doe3', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 2, 1),
-       (5, 'janedoe5', 'Jane5', 'Doe4', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1),
-       (6, 'janedoe6', 'Jane6', 'Doe5', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1),
-       (7, 'janedoe7', 'Jane7', 'Doe6', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1),
-       (8, 'janedoe8', 'Jane8', 'Doe7', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 0, 1),
-       (9, 'janedoe9', 'Jane9', 'Doe8', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1),
-       (10, 'janedoe10', 'Jane10', 'Doe9', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1),
-       (11, 'janedoe11', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1),
-       (12, 'rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1),
-       (13, 'janedoe13', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Ministerio', 0, 1);
+INSERT INTO user(id_user, username, firstname, lastname, uri_image_profile, user_description, id_type_user, school_id, birthday_day)
+VALUES (1, 'johndoe', 'John', 'Doe','https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/userProfile.png', 'Teacher at XYZ High School', 1, 1, '1997-11-04'),
+       (2, 'janedoe2', 'Jane2', 'Doe1', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (3, 'rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1, '1997-11-04'),
+       (4, 'janedoe4', 'Jane4', 'Doe3', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 2, 1, '1997-11-04'),
+       (5, 'janedoe5', 'Jane5', 'Doe4', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (6, 'janedoe6', 'Jane6', 'Doe5', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (7, 'janedoe7', 'Jane7', 'Doe6', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (8, 'janedoe8', 'Jane8', 'Doe7', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (9, 'janedoe9', 'Jane9', 'Doe8', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (10, 'janedoe10', 'Jane10', 'Doe9', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (11, 'janedoe11', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (12, 'rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1, '1997-11-04'),
+       (13, 'janedoe13', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Ministerio', 0, 1, '1997-11-04');
 
 INSERT INTO report_general(id_report, id_user, report_description)
 VALUES (1, 1, "Reporto ese perfil porque no me parece un contenido adecuado para nosotros"),
@@ -208,24 +232,39 @@ VALUES (1, 1, 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/
 INSERT INTO follow(id_user, id_followed, follow)
 VALUES (1, 2, TRUE);
 
-INSERT INTO bitacora(id_bitacora, name_bitacora, id_user)
+INSERT INTO bitacora(id_bitacora, name_bitacora, id_author_bitacora)
 VALUES (1, "Conociendo la aplicación", 1);
 
-INSERT INTO question(id_question, question, id_bitacora)
-VALUES (1, "¿Con que nivel de energía te iras de la clase?", 1),
-       (2, "¿Que nota le pondrias a esta actividad", 1),
-       (3, "¿Como te vas de la clase?, menciona una emoción de la imagen.", 1),
-       (4, "¿Que aprendiste de la clase hoy?. Comparte una reflexión personal", 1);
+INSERT INTO question(id_question, question)
+VALUES (1, "¿Con que nivel de energía te iras de la clase?"),
+       (2, "¿Que nota le pondrias a esta actividad"),
+       (3, "¿Como te vas de la clase?, menciona una emoción de la imagen."),
+       (4, "¿Que aprendiste de la clase hoy?. Comparte una reflexión personal");
 
-INSERT INTO answer(answer, id_question, id_user)
-VALUES ("7", 1, 1),
-       ("7", 2, 1),
-       ("Contento", 3, 1),
-       ("Aprendi a como utilizar la aplicación.", 4, 1),
-       ("5", 1, 2),
-       ("5", 2, 2),
-       ("Triste", 3, 2),
-       ("La aplicación me da miedo!.", 4, 2);
+INSERT INTO answer(answer, id_question, id_user, id_bitacora)
+VALUES ("7", 1, 1, 1),
+       ("7", 2, 1, 1),
+       ("Contento", 3, 1, 1),
+       ("Aprendi a como utilizar la aplicación.", 4, 1, 1),
+       ("5", 1, 2, 1),
+       ("5", 2, 2, 1),
+       ("Triste", 3, 2, 1),
+       ("La aplicación me da miedo!.", 4, 2, 1);
+
+INSERT INTO survey(id_survey, question_survey)
+VALUES (1, "¿Donde vamos a comer?");
+
+INSERT INTO alternative(id_alternative, alternative, id_survey)
+VALUES (1, "Mall", 1),
+       (2, "Casino", 1);
+
+INSERT INTO answer_alternative(id_answer_alternative, id_alternative, id_user, fecha_answer)
+VALUES (1, 1, 1, '2023-09-15'),
+       (2, 2, 1, '2023-09-18'),
+       (3, 2, 2, '2023-09-24');
+
+INSERT INTO settings(show_comments)
+VALUES (TRUE);
 
 
 
