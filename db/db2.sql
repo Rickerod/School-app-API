@@ -128,7 +128,7 @@ CREATE TABLE answer_alternative(
     id_answer_alternative INT AUTO_INCREMENT PRIMARY KEY,
     id_alternative INT,
     id_user INT,
-    fecha_answer DATE NOT NULL,
+    fecha_answer DATE,
     FOREIGN KEY(id_alternative) REFERENCES alternative(id_alternative),
     FOREIGN KEY(id_user) REFERENCES user(id_user)
 );
@@ -252,11 +252,15 @@ VALUES ("7", 1, 1, 1),
        ("La aplicación me da miedo!.", 4, 2, 1);
 
 INSERT INTO survey(id_survey, question_survey)
-VALUES (1, "¿Donde vamos a comer?");
+VALUES (1, "¿Donde vamos a comer?"),
+       (2, "¿Donde iremos?");
 
 INSERT INTO alternative(id_alternative, alternative, id_survey)
 VALUES (1, "Mall", 1),
-       (2, "Casino", 1);
+       (2, "Casino", 1),
+       (3, "Corral", 2),
+       (4, "Lago ranco", 2),
+       (5, "Osorno", 2);
 
 INSERT INTO answer_alternative(id_answer_alternative, id_alternative, id_user, fecha_answer)
 VALUES (1, 1, 1, '2023-09-15'),

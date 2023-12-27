@@ -10,6 +10,7 @@ import imagesRoutes from "./routes/images.routes.js"
 import likesRoutes from "./routes/likes.routes.js"
 import BitacoraRoutes from "./routes/bitacora.routes.js"
 import disableComments from "./routes/disableComments.routes.js";
+import survey from "./routes/survey.routes.js"
 
 const app = express()
 
@@ -27,6 +28,7 @@ app.use("/report", reportsRoutes);
 app.use("/upload", imagesRoutes);
 app.use("/like", likesRoutes);
 app.use("/bitacora", BitacoraRoutes)
+app.use("/survey", survey)
 
 //Seteos
 app.set('json spaces', 2)
