@@ -17,6 +17,7 @@ CREATE TABLE user(
     username VARCHAR(50),
     firstname VARCHAR(50),
     lastname VARCHAR(50),
+    password VARCHAR(50),
     uri_image_profile VARCHAR(200),
     user_description VARCHAR(200),
     id_type_user INT,
@@ -114,7 +115,10 @@ CREATE TABLE image(
 
 CREATE TABLE survey(
     id_survey INT AUTO_INCREMENT PRIMARY KEY,
-    question_survey VARCHAR(200)
+    id_author_survey INT,
+    question_survey VARCHAR(200),
+    FOREIGN KEY(id_author_survey) REFERENCES user(id_user)
+
 );
 
 CREATE TABLE alternative(
@@ -125,10 +129,10 @@ CREATE TABLE alternative(
 );
 
 CREATE TABLE answer_alternative(
-    id_answer_alternative INT AUTO_INCREMENT PRIMARY KEY,
     id_alternative INT,
     id_user INT,
-    fecha_answer DATE,
+    PRIMARY KEY (id_alternative, id_user),
+    fecha_answer TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6),
     FOREIGN KEY(id_alternative) REFERENCES alternative(id_alternative),
     FOREIGN KEY(id_user) REFERENCES user(id_user)
 );
@@ -154,20 +158,20 @@ VALUES (0, "user"),
        (1, "admin"),
        (2, "ministerio");
 
-INSERT INTO user(id_user, username, firstname, lastname, uri_image_profile, user_description, id_type_user, school_id, birthday_day)
-VALUES (1, 'johndoe', 'John', 'Doe','https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/userProfile.png', 'Teacher at XYZ High School', 1, 1, '1997-11-04'),
-       (2, 'janedoe2', 'Jane2', 'Doe1', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (3, 'rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1, '1997-11-04'),
-       (4, 'janedoe4', 'Jane4', 'Doe3', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 2, 1, '1997-11-04'),
-       (5, 'janedoe5', 'Jane5', 'Doe4', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (6, 'janedoe6', 'Jane6', 'Doe5', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (7, 'janedoe7', 'Jane7', 'Doe6', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (8, 'janedoe8', 'Jane8', 'Doe7', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (9, 'janedoe9', 'Jane9', 'Doe8', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (10, 'janedoe10', 'Jane10', 'Doe9', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (11, 'janedoe11', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (12, 'rabbit', 'rabbit', 'rabbit', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1, '1997-11-04'),
-       (13, 'janedoe13', 'Jane11', 'Doe10', 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Ministerio', 0, 1, '1997-11-04');
+INSERT INTO user(id_user, username, firstname, lastname,  password, uri_image_profile, user_description, id_type_user, school_id, birthday_day)
+VALUES (1, 'johndoe', 'John', 'Doe', "123456", 'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/userProfile.png', 'Teacher at XYZ High School', 1, 1, '1997-11-04'),
+       (2, 'janedoe2', 'Jane2', 'Doe1', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (3, 'rabbit', 'rabbit', 'rabbit', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1, '1997-11-04'),
+       (4, 'janedoe4', 'Jane4', 'Doe3', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 2, 1, '1997-11-04'),
+       (5, 'janedoe5', 'Jane5', 'Doe4', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (6, 'janedoe6', 'Jane6', 'Doe5', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (7, 'janedoe7', 'Jane7', 'Doe6', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (8, 'janedoe8', 'Jane8', 'Doe7', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (9, 'janedoe9', 'Jane9', 'Doe8', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (10, 'janedoe10', 'Jane10', 'Doe9', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (11, 'janedoe11', 'Jane11', 'Doe10', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (12, 'rabbit', 'rabbit', 'rabbit', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1, '1997-11-04'),
+       (13, 'janedoe13', 'Jane11', 'Doe10', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Ministerio', 0, 1, '1997-11-04');
 
 INSERT INTO report_general(id_report, id_user, report_description)
 VALUES (1, 1, "Reporto ese perfil porque no me parece un contenido adecuado para nosotros"),
@@ -251,9 +255,9 @@ VALUES ("7", 1, 1, 1),
        ("Triste", 3, 2, 1),
        ("La aplicación me da miedo!.", 4, 2, 1);
 
-INSERT INTO survey(id_survey, question_survey)
-VALUES (1, "¿Donde vamos a comer?"),
-       (2, "¿Donde iremos?");
+INSERT INTO survey(id_survey, id_author_survey, question_survey)
+VALUES (1, 1, "¿Donde vamos a comer?"),
+       (2, 1, "¿Donde iremos?");
 
 INSERT INTO alternative(id_alternative, alternative, id_survey)
 VALUES (1, "Mall", 1),
@@ -262,10 +266,10 @@ VALUES (1, "Mall", 1),
        (4, "Lago ranco", 2),
        (5, "Osorno", 2);
 
-INSERT INTO answer_alternative(id_answer_alternative, id_alternative, id_user, fecha_answer)
-VALUES (1, 1, 1, '2023-09-15'),
-       (2, 2, 1, '2023-09-18'),
-       (3, 2, 2, '2023-09-24');
+/* INSERT INTO answer_alternative(id_alternative, id_user, fecha_answer)
+VALUES (1, 1, '2023-09-15'),
+       (2, 1, '2023-09-18'),
+       (2, 2, '2023-09-24'); */
 
 INSERT INTO settings(show_comments)
 VALUES (TRUE);

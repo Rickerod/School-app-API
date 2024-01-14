@@ -11,6 +11,7 @@ import likesRoutes from "./routes/likes.routes.js"
 import BitacoraRoutes from "./routes/bitacora.routes.js"
 import disableComments from "./routes/disableComments.routes.js";
 import survey from "./routes/survey.routes.js"
+import loginRoutes from "./routes/login.routes.js"
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(express.json());
 
 //Routes
 app.use("/", indexRoutes);
+app.use("/login", loginRoutes);
 app.use("/users", usersRoutes )
 app.use("/posts", postsRoutes);
 app.use("/comments", commentsRoutes);

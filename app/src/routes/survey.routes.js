@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { getSurvey } from "../controllers/survey.controller.js";
+import { getSurvey, insertAnswerSurvey, insertSurvey } from "../controllers/survey.controller.js";
 
 const router = Router();
 
-router.get("/:idUser", getSurvey)
+router.get("/:idUser/:idUserProfile", getSurvey)
+router.post("/insertAlternative", insertAnswerSurvey)
+router.post("/insertSurvey/:idUser", insertSurvey)
 
 export default router;

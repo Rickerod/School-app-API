@@ -2,18 +2,21 @@ import { pool } from "../db.js";
 
 export const getPosts = async (req, res) => {
     const id = req.params.idUser;
+    const school_id = req.params.idSchool;
 
     console.log("Mi id es ", id)
 
     try {
-        const [posts] = await pool.query(`SELECT p.id_post, p.id_author_post, u.username, u.firstname, u.uri_image_profile, p.post_description,
+
+        const query_posts = `SELECT p.id_post, p.id_author_post, u.username, u.firstname, u.uri_image_profile, p.post_description,
         p.post_category, p.num_likes, p.thumbnail_video, p.video_url
         FROM post p
         INNER JOIN user u ON u.id_user = p.id_author_post
-        WHERE u.school_id = 1
+        WHERE u.school_id = ?
         ORDER BY p.id_post DESC
-        LIMIT 6
-        `);
+        LIMIT 6`
+
+        const [posts] = await pool.query(query_posts, [school_id])
 
         // Obtener imágenes y videos
         const mediaPromises = posts.map(async post => {
@@ -67,9 +70,14 @@ export const getPosts = async (req, res) => {
 };
 
 export const getPostPage = async (req, res) => {
+
+    console.log("Paso por aca!!!!")
     const id_user = req.params.idUser
     const first_id = req.params.firstId
     const last_id= req.params.lastId
+    const school_id = req.params.idSchool;
+
+    console.log(id_user, first_id, last_id, school_id)
 
     try{
 
@@ -77,11 +85,12 @@ export const getPostPage = async (req, res) => {
         p.post_category, p.num_likes, p.thumbnail_video, p.video_url
         FROM post p
         INNER JOIN user u ON u.id_user = p.id_author_post
-        WHERE p.id_post > ? OR p.id_post < ?
+        WHERE u.school_id = ? AND ( p.id_post > ? OR p.id_post < ? )
         ORDER BY p.id_post DESC
         LIMIT 6`
 
-        const [posts] = await pool.query(sql, [first_id, last_id])
+        const [posts] = await pool.query(sql, [school_id, first_id, last_id])
+
 
         const mediaPromises = posts.map(async post => {
             const [images] = await pool.query(`
@@ -111,6 +120,8 @@ export const getPostPage = async (req, res) => {
         });
 
         const media = await Promise.all(mediaPromises);
+
+        console.log(media)
         res.json(media)
 
 
@@ -118,7 +129,7 @@ export const getPostPage = async (req, res) => {
         res.status(500).json({
             ok: false,
             message: 'Ocurrió un error al renderizar una nueva página.',
-            error: err.message
+            error: e.message
         });
 
     }
@@ -138,6 +149,8 @@ export const getPostsProfile = async (req, res) => {
         FROM post p 
         INNER JOIN user u ON p.id_author_post = u.id_user 
         WHERE p.id_author_post = ? AND p.post_category = ?`, [id, type_post])
+    
+    console.log("posts", posts);
 
     const mediaPromises = posts.map(async post => {
         const [images] = await pool.query(`
@@ -165,6 +178,7 @@ export const getPostsProfile = async (req, res) => {
     });
 
     const media = await Promise.all(mediaPromises);
+    console.log("media", media);
     res.json(media)
 
 }

@@ -3,9 +3,9 @@ import { getPosts, getPostsProfile, addPost, removePost, getPostPage, getPostsVi
 
 const router = Router();
 
-router.get("/:idUser", getPosts)
-router.get("/:idUser/:lastId/:firstId", getPostPage)
+router.get("/:idUser/:idSchool", getPosts)
 router.get("/profile/:typePost/:idUserProfile/:idUser", getPostsProfile)
+router.get("/:idUser/:lastId/:firstId/:idSchool", getPostPage)
 //router.get("/vide/:idUserProfile/:idUser", getPostsVideosProfile)
 router.post("/:idUser", addPost)
 router.delete("/:idPost", removePost)
