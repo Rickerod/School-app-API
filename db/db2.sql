@@ -169,8 +169,8 @@ VALUES (1, 'johndoe', 'johndoe', 'John', 'Doe', "123456", 'https://raw.githubuse
        (7, 'janedoe7', 'janedoe7', 'Jane7', 'Doe6', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
        (8, 'janedoe8', 'janedoe8', 'Jane8', 'Doe7', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
        (9, 'janedoe9', 'janedoe9', 'Jane9', 'Doe8', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile4.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (10, 'janedoe10', 'janedoe10', 'Jane10', 'Doe9', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
-       (11, 'janedoe11', 'janedoe11', 'Jane11', 'Doe10', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 1, '1997-11-04'),
+       (10, 'janedoe10', 'janedoe10', 'Jane10', 'Doe9', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile1.jpg', 'Student at XYZ High School', 0, 2, '1997-11-04'),
+       (11, 'janedoe11', 'janedoe11', 'Jane11', 'Doe10', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile2.jpg', 'Student at XYZ High School', 0, 2, '1997-11-04'),
        (12, 'rabbit', 'rabbit', 'rabbit', 'rabbit', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile5.jpg', 'Estudiante, apasionado por la lectura.', 0, 1, '1997-11-04'),
        (13, 'janedoe13', 'janedoe13', 'Jane11', 'Doe10', "123456",'https://raw.githubusercontent.com/Rickerod/School-app/master/src/storage/images/profile3.jpg', 'Ministerio', 0, 1, '1997-11-04');
 
