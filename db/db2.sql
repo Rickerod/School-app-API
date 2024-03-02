@@ -152,7 +152,8 @@ CREATE TABLE settings(
 );
 
 INSERT INTO school
-VALUES (1);
+VALUES (1),
+       (2);
 
 INSERT INTO type_user(id_type_user, name_type_user)
 VALUES (0, "user"),
