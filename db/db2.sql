@@ -1,4 +1,3 @@
-DROP DATABASE schooldbv2;
 CREATE DATABASE schooldbv2;
 
 USE schooldbv2;
