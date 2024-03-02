@@ -158,7 +158,7 @@ export const insertSurvey = async (req, res) => {
 
         //Guardar pregunta de la encuesta
         const sql_survey = `
-            INSERT INTO Survey(id_author_survey, question_survey) VALUES (?, ?)
+            INSERT INTO survey(id_author_survey, question_survey) VALUES (?, ?)
 
         `
         const [result_survey] = await pool.query(sql_survey, [id_user, pregunta])
@@ -177,11 +177,34 @@ export const insertSurvey = async (req, res) => {
         });
 
     } catch (err){
+        console.log("error")
         res.status(500).json({
             ok: false,
             message: 'Error al crear la encuesta.',
             error: err.message
         });
 
+    }
+}
+
+export const removeSurvey = async (req, res) => {
+    const {id_survey} = req.body
+
+    try {
+        const sql_survey = `DELETE FROM survey WHERE id_survey = ?`;
+        const [result_survey] = await pool.query(sql_survey, [id_survey]);
+
+        res.json({
+            ok: true,
+            message: 'Encuesta eliminada correctamente.',
+        });
+
+    } catch (err) {
+        
+        res.status(500).json({
+            ok: false,
+            message: 'Error al eliminar la encuesta.',
+            error: err.message
+        });
     }
 }

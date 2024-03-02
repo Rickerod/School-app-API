@@ -7,7 +7,7 @@ ENV MYSQL_ROOT_PASSWORD "root"
 VOLUME /docker-entrypoint-initdb.d
 
 # Copiar script SQL a volumen de inicialización
-COPY db.sql /docker-entrypoint-initdb.d/
+COPY db2.sql /docker-entrypoint-initdb.d/
 
 # Expose MySQL port
 EXPOSE 3306

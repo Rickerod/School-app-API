@@ -15,7 +15,7 @@ export const login = async (req, res) => {
         const query = `
             SELECT *
             FROM user u
-            WHERE u.username = ? AND u.password = ?;
+            WHERE u.loginuser = ? AND u.password = ?;
         `;
 
         const [users] = await pool.query(query, [username, password]);
@@ -30,7 +30,8 @@ export const login = async (req, res) => {
                     id: user_logged.id_user,
                     type_user: user_logged.id_type_user,
                     uri_image_profile: user_logged.uri_image_profile,
-                    username: user_logged.username
+                    username: user_logged.username,
+                    school_id: user_logged.school_id
                 }
             });
         } else {

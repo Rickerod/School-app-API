@@ -85,3 +85,26 @@ export const addComment = async (req, res) => {
         });
     }
 }
+
+export const removeComment = async (req, res) => {
+    const {id_comment} = req.body
+
+    console.log("id_comment", id_comment)
+    try {
+        const sql_comment = `DELETE FROM comments WHERE id_comment = ?`;
+        const [result_comment] = await pool.query(sql_comment, [id_comment]);
+
+        res.json({
+            ok: true,
+            message: 'Comentario eliminado correctamente.',
+        });
+
+    } catch (err) {
+        
+        res.status(500).json({
+            ok: false,
+            message: 'Error al eliminar el comentario.',
+            error: err.message
+        });
+    }
+}

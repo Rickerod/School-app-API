@@ -2,12 +2,16 @@ import { pool } from "../db.js";
 
 export const getBitacoras = async (req, res) => {
 
+    const idSchool = req.params.idSchool
+    console.log("idSchool", idSchool)
     try {
-        const sql = `SELECT id_bitacora, u.username, u.uri_image_profile, b.name_bitacora
+        const sql = `SELECT b.id_bitacora, u.username, u.uri_image_profile, b.name_bitacora
         FROM user u
-        INNER JOIN bitacora b ON u.id_user= b.id_author_bitacora`
+        INNER JOIN bitacora b ON u.id_user= b.id_author_bitacora
+        WHERE u.school_id = ?`
 
-        const [bitacoras] = await pool.query(sql)
+        const [bitacoras] = await pool.query(sql, [idSchool])
+
 
         res.json(bitacoras)
 

@@ -1,12 +1,16 @@
 import { pool } from "../db.js";
 
 export const getReports = async (req, res) => {
+    const idSchool = req.params.idSchool
+    console.log("idSchool", idSchool)
+
     try {
         const [reports] = await pool.query(
             `SELECT u.id_user, u.uri_image_profile, u.username, r.id_report, r.report_description
              FROM user u
              INNER JOIN report_general r ON u.id_user = r.id_user
-             `
+             WHERE u.school_id = ?
+             `, [idSchool]
         )
 
         res.json(reports)
@@ -14,7 +18,7 @@ export const getReports = async (req, res) => {
         res.status(500).json({
             ok: false,
             message: 'Error al obtener los comentarios',
-            error: err.message
+            error: error.message
         });
     }
 }
