@@ -3,7 +3,8 @@ CREATE DATABASE schooldbv2;
 USE schooldbv2;
 
 CREATE TABLE school(
-    school_id INT PRIMARY KEY
+    school_id INT PRIMARY KEY,
+    show_comments BOOLEAN
 );
 
 CREATE TABLE type_user(
@@ -146,13 +147,9 @@ CREATE TABLE follow(
   FOREIGN KEY(id_followed) REFERENCES user(id_user)
 );
 
-CREATE TABLE settings(
-    show_comments BOOLEAN
-);
-
 INSERT INTO school
-VALUES (1),
-       (2);
+VALUES (1, TRUE),
+       (2, TRUE);
 
 INSERT INTO type_user(id_type_user, name_type_user)
 VALUES (0, "user"),

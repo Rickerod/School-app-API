@@ -3,7 +3,7 @@ import { disableComments, getDisableComments } from "../controllers/disableComme
 
 const router = Router();
 
-router.get("", getDisableComments)
-router.put("/:disabled", disableComments)
+router.get("/:idSchool", getDisableComments)
+router.put("/:disabled/:idSchool", disableComments)
 
 export default router;

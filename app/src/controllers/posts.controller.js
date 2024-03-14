@@ -148,6 +148,7 @@ export const getPostsProfile = async (req, res) => {
                     SELECT url_image 
                     FROM image
                     WHERE id_post = ?
+                    ORDER BY position ASC
                     `, [post.id_post]);
 
         const [like] = await pool.query(`
