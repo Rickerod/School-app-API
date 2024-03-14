@@ -1,3 +1,4 @@
+DROP DATABASE schooldbv2;
 CREATE DATABASE schooldbv2;
 
 USE schooldbv2;
@@ -263,14 +264,6 @@ VALUES (1, "Mall", 1),
        (3, "Corral", 2),
        (4, "Lago ranco", 2),
        (5, "Osorno", 2);
-
-/* INSERT INTO answer_alternative(id_alternative, id_user, fecha_answer)
-VALUES (1, 1, '2023-09-15'),
-       (2, 1, '2023-09-18'),
-       (2, 2, '2023-09-24'); */
-
-INSERT INTO settings(show_comments)
-VALUES (TRUE);
 
 
 
